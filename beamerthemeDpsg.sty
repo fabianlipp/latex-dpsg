@@ -1,0 +1,275 @@
+\ProvidesPackageRCS $Header: /cvsroot/latex-beamer/latex-beamer/themes/theme/beamerthemeDpsg.sty,v 1.7 2004/10/07 20:53:10 tantau Exp $
+
+% Copyright 2003 by Till Tantau <tantau@users.sourceforge.net>
+%
+% This program can be redistributed and/or modified under the terms
+% of the GNU Public License, version 2.
+
+\mode<presentation>
+
+\RequirePackage{ifluatex}
+\ifluatex\else
+\PackageError{beamerthemeDpsg}{LuaTeX is required for this theme. Aborting.}{%
+      This theme can only be used with the LuaTeX engine^^J%
+      (command `lualatex').^^J%
+      Package loading has been stopped to prevent additional errors.}
+\fi
+\RequirePackage{fontspec}
+
+\newfontfamily\font@title[]{Rockwell}
+\newfontfamily\font@default[]{Calibri}
+
+% Übernommen aus Theme Copenhagen
+\useoutertheme{split}
+\useinnertheme{rounded}
+\setbeamertemplate{items}[circle]
+
+\usecolortheme{whale}
+\usecolortheme{orchid}
+
+\setbeamerfont{frametitle}{family=\font@title,series=\bfseries}
+\setbeamerfont{title}{family=\font@title,series=\bfseries,size=\Large}
+\setbeamerfont{subtitle}{family=\font@title,series=\mdseries,size=\normalsize}
+\setbeamerfont{block title}{size={}}
+
+% ab hier Änderungen (angelehnt an Color-Theme Dolphin)
+%\definecolor{dpsgblau}{rgb}{0.024,0.118,0.278}
+%\definecolor{dpsgrot}{rgb}{0.6,0.008,0.141}
+\definecolor{dpsgblau}{RGB}{0,48,86}
+\definecolor{dpsgrot}{RGB}{129,10,26}
+\definecolor{dpsgbeige}{RGB}{236,223,203}
+
+\setbeamercolor*{title in head/foot}{fg=black!40,bg=dpsgbeige}
+
+\setbeamercolor*{structure}{fg=dpsgrot}
+\setbeamercolor*{block body}{bg=dpsgblau}
+\setbeamercolor{block title}{use=structure,fg=white,bg=dpsgblau!75!black}
+\setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg!10!bg}
+\setbeamercolor*{palette primary}{use=structure,fg=white,bg=dpsgblau!70}
+% \setbeamercolor*{palette secondary}{use=structure,fg=white,bg=structure.fg!60!white}
+% \setbeamercolor*{palette tertiary}{use=structure,fg=white,bg=structure.fg!90!white}
+\setbeamercolor*{palette quaternary}{fg=white,bg=dpsgblau}
+
+% \setbeamercolor*{sidebar}{use=structure,bg=structure.fg}
+  
+% \setbeamercolor*{palette sidebar primary}{use=structure,fg=structure.fg!10}
+% \setbeamercolor*{palette sidebar secondary}{fg=white}
+% \setbeamercolor*{palette sidebar tertiary}{use=structure,fg=structure.fg!50}
+% \setbeamercolor*{palette sidebar quaternary}{fg=white}
+
+\setbeamercolor*{titlelike}{use=structure,fg=structure.fg}
+\setbeamercolor*{title}{fg=dpsgrot}
+\setbeamercolor*{subtitle}{fg=dpsgblau}
+\setbeamercolor*{navigation symbols}{fg=dpsgrot,bg=black!20}
+
+\newlength{\@wegzeichenwidth}
+\newsavebox{\@wegzeichenstart}
+\newsavebox{\@wegzeichenziel}
+\newsavebox{\@dpsglogo}
+%\savebox{\@wegzeichenstart}{\includegraphics[height=0.6em,trim=0 -10 0
+%0]{wegzeichen_start}\ }
+\savebox{\@wegzeichenstart}{%
+  \usebeamerfont{frametitle}%
+  \raisebox{0.2ex}{%
+    \resizebox{!}{1ex}{%
+      \begin{tikzpicture}[x=1pt,y=1pt]
+        \path[fill=dpsgrot]
+          (0, 575)
+          -- (203, 287.5)
+          -- (0, 0)
+          -- (165.5, 0)
+          -- (368.5, 287.5)
+          -- (165.5, 575)
+          -- cycle
+          (374, 575)
+          -- (577, 287.5)
+          -- (374, 0)
+          -- (539.5, 0)
+          -- (742.5, 287.5)
+          -- (539.5, 575)
+          -- cycle
+          (1010, 575)
+          -- (807, 287.5)
+          -- (1010, 0)
+          -- (1175.5, 0)
+          -- (972.5, 287.5)
+          -- (1175.5, 575)
+          -- cycle;
+      \end{tikzpicture}%
+    }\ \,%
+  }%
+}
+\savebox{\@wegzeichenziel}{%
+  \usebeamerfont{frametitle}
+  \resizebox{1ex}{!}{%
+    \begin{tikzpicture}[x=1pt,y=1pt]
+      \path[fill=dpsgrot]
+        (0, -913.5)
+        -- (0, -748)
+        -- (287.5, -951)
+        -- (575, -748)
+        -- (575, -913.5)
+        -- (287.5, -1116.5)
+        -- cycle
+        (0, -539.5)
+        -- (0, -374)
+        -- (287.5, -577)
+        -- (575, -374)
+        -- (575, -539.5)
+        -- (287.5, -742.5)
+        -- cycle
+        (0, -165.5)
+        -- (0, 0)
+        -- (287.5, -203)
+        -- (575, 0)
+        -- (575, -165.5)
+        -- (287.5, -368.5)
+        -- cycle;
+    \end{tikzpicture}%
+  }%
+}
+\savebox{\@dpsglogo}{%
+  \resizebox{!}{0.45cm}{%
+      \input{beamerthemeDpsg-logo.tex}
+  }%
+}
+\@wegzeichenwidth=\wd\@wegzeichenstart
+
+
+
+
+
+%%%%% Titel (+ Untertitel) von normalen Folien
+\defbeamertemplate*{frametitle}{dpsg}[1][left]
+{
+  \ifbeamercolorempty[bg]{frametitle}{}{\nointerlineskip}%
+  \@tempdima=\textwidth%
+  \advance\@tempdima by\beamer@leftmargin%
+  \advance\@tempdima by\beamer@rightmargin%
+  \begin{beamercolorbox}[sep=0.3cm,#1,wd=\the\@tempdima]{frametitle}
+    \usebeamerfont{frametitle}%
+    \vbox{}\vskip-1ex%
+    \if@tempswa\else\csname beamer@fte#1\endcsname\fi%
+    \advance\leftskip by\@wegzeichenwidth%
+    \hskip-\@wegzeichenwidth%
+    \usebox{\@wegzeichenstart}%
+    \strut\insertframetitle\strut\par%
+    {%
+      \ifx\insertframesubtitle\@empty%
+      \else%
+      {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle\strut\par}%
+      \fi
+    }%
+    \vskip-1ex%
+    \if@tempswa\else\vskip-.3cm\fi% set inside beamercolorbox... evil here...
+  \end{beamercolorbox}%
+}
+
+
+
+
+
+%%%%% Kopf- und Fusszeile auf normalen Folien
+\defbeamertemplate*{headline}{dpsg}
+{%
+  \leavevmode%
+  \vskip0.25cm%
+  \hfill
+  \hbox{\begin{beamercolorbox}[wd=.96\paperwidth,ht=0.25cm,leftskip=.3cm,rightskip=.3cm]{section in head/foot}%
+  \end{beamercolorbox}}\hfill\hfill%
+}
+\defbeamertemplate*{footline}{dpsg}
+{%
+  \leavevmode%
+  \hfill
+  \hbox{\begin{beamercolorbox}[wd=.96\paperwidth,ht=0.5cm,dp=0.2cm,leftskip=.3cm,rightskip=.3cm]{title in head/foot}%
+    \parbox{1cm}{\insertframenumber{} / \inserttotalframenumber}
+    \usebeamerfont{title in head/foot}\insertshorttitle
+    \hfill
+    \raisebox{-0.2cm}{%
+      \begin{tikzpicture}
+        \path[use as bounding box] (0,0) -- (0,0.7cm);
+        \node at (-1cm,0.35cm) {\usebox{\@dpsglogo}};
+        \node at (0,0.35cm) {\usebox{\@wegzeichenziel}};
+      \end{tikzpicture}%
+    }%
+  \end{beamercolorbox}}\hfill\hfill%
+  \vskip0.25cm%
+}
+
+
+
+%%%%% Titelfolie
+\newcommand\titelfoto[1]{\def\inserttitelfoto{#1}}
+\titelfoto{}
+% weitere mögliche Felder:
+% \insertauthor
+% \insertinstitute
+% \insertdate
+\defbeamertemplate*{title page}{dpsg}[1][]
+{
+  \begin{tikzpicture}[remember picture,overlay]
+    \ifx\inserttitelfoto\@empty%
+    \else%
+      \node at (current page.center)
+        % ggf. keepaspectratio einfügen
+        {\includegraphics[width=12.3cm,height=9.1cm]{\inserttitelfoto}};
+    \fi
+
+    % Logo unten rechts
+    \node[fill=white,fill opacity=0.8,anchor=south east,xshift=-0.75cm,yshift=0.75cm]
+      at (current page.south east)
+      {\phantom{\resizebox{!}{1.5cm}{\usebox{\@dpsglogo}}}};
+    \node[anchor=south east,xshift=-0.75cm,yshift=0.75cm]
+      at (current page.south east)
+      {\resizebox{!}{1.5cm}{\usebox{\@dpsglogo}}};
+
+    % Titelzeile
+    \path[fill=white,opacity=0.7,anchor=north west]
+      (current page.north west) ++(0cm,-0.6cm) rectangle ++(12.8cm,-1.3cm);
+    \draw[dpsgblau]
+      (current page.north west) ++(0.25cm,-1.37cm) -- ++(12.3cm,0cm);
+    \draw[black,opacity=0.2]
+      (current page.north west) ++(0.25cm,-1.40cm) -- ++(12.3cm,0cm);
+
+    % Text auf Titelzeile
+    \node[anchor=north,inner sep=0pt,yshift=-0.45cm] at (current page.north) {
+      \@tempdima=\textwidth%
+      \advance\@tempdima by\beamer@leftmargin%
+      \advance\@tempdima by\beamer@rightmargin%
+      \begin{beamercolorbox}[sep=0.3cm,#1,wd=\the\@tempdima]{title}
+        \usebeamerfont{title}%
+        \vbox{}\vskip-1ex%
+        \if@tempswa\else\csname beamer@fte#1\endcsname\fi%
+        \advance\leftskip by\@wegzeichenwidth%
+        \advance\leftskip by 0.3cm%
+        \hskip-\@wegzeichenwidth%
+        \usebox{\@wegzeichenstart}%
+        \strut\inserttitle\strut%
+      \end{beamercolorbox}%
+    };
+
+    \ifx\insertsubtitle\@empty%
+    \else%
+      \node[anchor=north,inner sep=0pt,yshift=-1.17cm] at (current page.north) {
+        \@tempdima=\textwidth%
+        \advance\@tempdima by\beamer@leftmargin%
+        \advance\@tempdima by\beamer@rightmargin%
+        \begin{beamercolorbox}[sep=0.3cm,#1,wd=\the\@tempdima]{title}
+          \usebeamerfont{subtitle}%
+          \vbox{}\vskip-1ex%
+          \if@tempswa\else\csname beamer@fte#1\endcsname\fi%
+          \advance\leftskip by\@wegzeichenwidth%
+          \advance\leftskip by 0.3cm%
+          \usebeamerfont{subtitle}%
+          \usebeamercolor[fg]{subtitle}%
+          \insertsubtitle\strut\par%
+        \end{beamercolorbox}%
+      };
+    \fi
+
+  \end{tikzpicture}
+}
+
+\mode
+<all>
