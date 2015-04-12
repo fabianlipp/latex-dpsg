@@ -1,0 +1,26 @@
+
+\ProvidesPackage{latex-dpsg-common}[2015/04/12]
+
+
+\RequirePackage{ifluatex}
+\ifluatex\else
+\PackageError{latex-dpsg-common}{LuaTeX is required for this package. Aborting.}{%
+      This package can only be used with the LuaTeX engine^^J%
+      (command `lualatex').^^J%
+      Package loading has been stopped to prevent additional errors.}
+\fi
+\RequirePackage{fontspec}
+
+% Wähle Schriftarten
+\newfontfamily\dpsgTitleFont[]{Rockwell}
+\newfontfamily\dpsgDefaultFont[]{Calibri}
+\setsansfont[]{Calibri}
+
+% Aus CD-Leitfaden vom Juli 2014
+\definecolor{dpsgblau}{RGB}{0,48,86}
+\definecolor{dpsgrot}{RGB}{129,10,26}
+\definecolor{dpsgbeige}{RGB}{236,223,203}
+
+
+
+

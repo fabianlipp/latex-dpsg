@@ -27,3 +27,15 @@ Eine kurze Einführung in LuaLaTeX gibt es hier: http://mirror.ctan.org/info/lua
 
 # Enthaltene Vorlagen
 * beamer: Präsentationsvorlage für das LaTeX-Beamer-Paket, die die PowerPoint-Vorlage von der Bundeshomepage nachbaut.
+
+# Verwendete Farben
+Alle Farben sind im RGB-Format spezifiziert.
+Die Farbwerte wurden aus dem CD-Leitfaden (Stand: Juli 2014) übernommen.
+Die Farben können auch im eigenen Dokument verwendet werden (z. B. mit
+`\color{dpsgrot}`).
+* `dpsgrot`: RGB(129, 10, 26), verwendet für den Strich der Wort-Bild-Marke und
+  die Wegzeichen
+* `dpsgblau`: RGB(0, 48, 86), verwendet für den Text der Wort-Bild-Marke
+* `dpsgbeige`: RGB(236, 223, 203), beispielsweise für die Fußzeile in
+  Präsentationen
+

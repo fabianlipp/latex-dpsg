@@ -7,44 +7,29 @@
 
 
 % TODO:
-% - Zusätzliches \logo (in Fußzeile neben DPSG-Logo anzeigen, z.B. Ausbildung)
+% - 'background canvas' oder 'main background' anstelle von tikz 'current
+%   picture.*' -> spart evtl. einen latex-Durchlauf ein
 
+
+\ProvidesPackage{beamerthemeDpsg}[2015/04/12]
+\RequirePackage{latex-dpsg-common}[2015/04/12]
+\RequirePackage{tikz}
+\usetikzlibrary{positioning}
 
 \mode<presentation>
 
-\RequirePackage{ifluatex}
-\ifluatex\else
-\PackageError{beamerthemeDpsg}{LuaTeX is required for this theme. Aborting.}{%
-      This theme can only be used with the LuaTeX engine^^J%
-      (command `lualatex').^^J%
-      Package loading has been stopped to prevent additional errors.}
-\fi
-\RequirePackage{fontspec}
-
-\newfontfamily\font@title[]{Rockwell}
-\newfontfamily\font@default[]{Calibri}
-
-% Übernommen aus Theme Copenhagen
-\useoutertheme{split}
 \useinnertheme{rounded}
 \setbeamertemplate{items}[circle]
 
-\usecolortheme{whale}
-\usecolortheme{orchid}
-
-\setbeamerfont{frametitle}{family=\font@title,series=\bfseries}
-\setbeamerfont{title}{family=\font@title,series=\bfseries,size=\Large}
-\setbeamerfont{subtitle}{family=\font@title,series=\mdseries,size=\normalsize}
+\setbeamerfont{frametitle}{family=\dpsgTitleFont,series=\bfseries}
+\setbeamerfont{title}{family=\dpsgTitleFont,series=\bfseries,size=\Large}
+\setbeamerfont{subtitle}{family=\dpsgTitleFont,series=\mdseries,size=\normalsize}
 \setbeamerfont{block title}{size={}}
 
 % ab hier Änderungen (angelehnt an Color-Theme Dolphin)
-%\definecolor{dpsgblau}{rgb}{0.024,0.118,0.278}
-%\definecolor{dpsgrot}{rgb}{0.6,0.008,0.141}
-\definecolor{dpsgblau}{RGB}{0,48,86}
-\definecolor{dpsgrot}{RGB}{129,10,26}
-\definecolor{dpsgbeige}{RGB}{236,223,203}
 
 \setbeamercolor*{title in head/foot}{fg=black!40,bg=dpsgbeige}
+\setbeamercolor*{headline}{bg=dpsgblau}
 
 \setbeamercolor*{structure}{fg=dpsgrot}
 \setbeamercolor*{block body}{bg=dpsgblau}
@@ -188,9 +173,10 @@
   \leavevmode%
   \vskip0.25cm%
   \hfill
-  \hbox{\begin{beamercolorbox}[wd=.96\paperwidth,ht=0.25cm,leftskip=.3cm,rightskip=.3cm]{section in head/foot}%
+  \hbox{\begin{beamercolorbox}[wd=.96\paperwidth,ht=0.25cm,leftskip=.3cm,rightskip=.3cm]{headline}%
   \end{beamercolorbox}}\hfill\hfill%
 }
+\def\footlinelogo{\setbeamertemplate{footline logo}}
 \defbeamertemplate*{footline}{dpsg}
 {%
   \leavevmode%
@@ -200,10 +186,14 @@
     \usebeamerfont{title in head/foot}\insertshorttitle
     \hfill
     \raisebox{-0.2cm}{%
-      \begin{tikzpicture}
+      \begin{tikzpicture}[node distance=0.25cm]
         \path[use as bounding box] (0,0) -- (0,0.7cm);
-        \node at (-1cm,0.35cm) {\usebox{\@dpsglogo}};
+        \node (dpsglogofootline) at (-1cm,0.35cm) {\usebox{\@dpsglogo}};
         \node at (0,0.35cm) {\usebox{\@wegzeichenziel}};
+        \ifbeamertemplateempty{footline logo}{}{
+          \node[left=of dpsglogofootline]
+           {\resizebox{!}{0.6cm}{\usebeamertemplate*{footline logo}}};
+        }
       \end{tikzpicture}%
     }%
   \end{beamercolorbox}}\hfill\hfill%
@@ -297,7 +287,10 @@
 
 % Kommando, um die Titelfolie anzuzeigen
 \newcommand{\dpsgtitelfolie}{
-  \mode<presentation>{
-    \frame[plain]{\titlepage}
-  }
+  \begingroup
+    \setbeamertemplate{navigation symbols}{}
+    \mode<presentation>{
+      \frame[plain]{\titlepage}
+    }
+  \endgroup
 }
