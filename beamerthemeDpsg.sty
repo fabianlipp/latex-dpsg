@@ -49,6 +49,7 @@
 
 \setbeamercolor*{titlelike}{use=structure,fg=structure.fg}
 \setbeamercolor*{title}{fg=dpsgrot}
+\setbeamercolor*{framesubtitle}{fg=dpsgblau}
 \setbeamercolor*{subtitle}{fg=dpsgblau}
 \setbeamercolor*{navigation symbols}{fg=dpsgrot,bg=black!20}
 
@@ -184,6 +185,10 @@
   \hbox{\begin{beamercolorbox}[wd=.96\paperwidth,ht=0.5cm,dp=0.2cm,leftskip=.3cm,rightskip=.3cm]{title in head/foot}%
     \parbox{1cm}{\insertframenumber{} / \inserttotalframenumber}
     \usebeamerfont{title in head/foot}\insertshorttitle
+    \ifx\insertsectionhead\@empty
+    \else \ --
+    \usebeamerfont{section in head/foot}\insertsectionhead
+    \fi
     \hfill
     \raisebox{-0.2cm}{%
       \begin{tikzpicture}[node distance=0.25cm]
