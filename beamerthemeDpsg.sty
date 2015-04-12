@@ -1,9 +1,14 @@
-\ProvidesPackageRCS $Header: /cvsroot/latex-beamer/latex-beamer/themes/theme/beamerthemeDpsg.sty,v 1.7 2004/10/07 20:53:10 tantau Exp $
-
-% Copyright 2003 by Till Tantau <tantau@users.sourceforge.net>
+% Copyright 2015 by Fabian Lipp <fabian.lipp@gmx.de>
 %
 % This program can be redistributed and/or modified under the terms
 % of the GNU Public License, version 2.
+%
+% based on beamer theme Copenhagen by Till Tantau
+
+
+% TODO:
+% - Zusätzliches \logo (in Fußzeile neben DPSG-Logo anzeigen, z.B. Ausbildung)
+
 
 \mode<presentation>
 
@@ -63,11 +68,12 @@
 \setbeamercolor*{navigation symbols}{fg=dpsgrot,bg=black!20}
 
 \newlength{\@wegzeichenwidth}
+\newif\ifdpsg@include@dachzeile
 \newsavebox{\@wegzeichenstart}
 \newsavebox{\@wegzeichenziel}
 \newsavebox{\@dpsglogo}
-%\savebox{\@wegzeichenstart}{\includegraphics[height=0.6em,trim=0 -10 0
-%0]{wegzeichen_start}\ }
+\newsavebox{\@dpsglogodachzeile}
+
 \savebox{\@wegzeichenstart}{%
   \usebeamerfont{frametitle}%
   \raisebox{0.2ex}{%
@@ -129,7 +135,14 @@
   }%
 }
 \savebox{\@dpsglogo}{%
+  \dpsg@include@dachzeilefalse%
   \resizebox{!}{0.45cm}{%
+      \input{beamerthemeDpsg-logo.tex}
+  }%
+}
+\savebox{\@dpsglogodachzeile}{%
+  \dpsg@include@dachzeiletrue%
+  \resizebox{!}{1.5cm}{%
       \input{beamerthemeDpsg-logo.tex}
   }%
 }
@@ -199,30 +212,29 @@
 
 
 
+
+
 %%%%% Titelfolie
 \newcommand\titelfoto[1]{\def\inserttitelfoto{#1}}
 \titelfoto{}
-% weitere mögliche Felder:
-% \insertauthor
-% \insertinstitute
-% \insertdate
-\defbeamertemplate*{title page}{dpsg}[1][]
-{
+
+\def\dpsg@hintergrundfoto{}
+\def\dpsg@title{}
+\def\dpsg@subtitle{}
+\newcommand{\dpsg@titelfolie}{
   \begin{tikzpicture}[remember picture,overlay]
-    \ifx\inserttitelfoto\@empty%
+    \ifx\dpsg@hintergrundfoto\@empty%
     \else%
-      \node at (current page.center)
-        % ggf. keepaspectratio einfügen
-        {\includegraphics[width=12.3cm,height=9.1cm]{\inserttitelfoto}};
+      \node at (current page.center) {\dpsg@hintergrundfoto};
     \fi
 
     % Logo unten rechts
     \node[fill=white,fill opacity=0.8,anchor=south east,xshift=-0.75cm,yshift=0.75cm]
       at (current page.south east)
-      {\phantom{\resizebox{!}{1.5cm}{\usebox{\@dpsglogo}}}};
+      {\phantom{\usebox{\@dpsglogodachzeile}}};
     \node[anchor=south east,xshift=-0.75cm,yshift=0.75cm]
       at (current page.south east)
-      {\resizebox{!}{1.5cm}{\usebox{\@dpsglogo}}};
+      {\usebox{\@dpsglogodachzeile}};
 
     % Titelzeile
     \path[fill=white,opacity=0.7,anchor=north west]
@@ -237,39 +249,55 @@
       \@tempdima=\textwidth%
       \advance\@tempdima by\beamer@leftmargin%
       \advance\@tempdima by\beamer@rightmargin%
-      \begin{beamercolorbox}[sep=0.3cm,#1,wd=\the\@tempdima]{title}
+      \begin{beamercolorbox}[sep=0.3cm,wd=\the\@tempdima]{title}
         \usebeamerfont{title}%
         \vbox{}\vskip-1ex%
-        \if@tempswa\else\csname beamer@fte#1\endcsname\fi%
         \advance\leftskip by\@wegzeichenwidth%
         \advance\leftskip by 0.3cm%
         \hskip-\@wegzeichenwidth%
         \usebox{\@wegzeichenstart}%
-        \strut\inserttitle\strut%
+        \strut\dpsg@title\strut%
       \end{beamercolorbox}%
     };
 
-    \ifx\insertsubtitle\@empty%
+    % Untertitel
+    \ifx\dpsg@subtitle\@empty%
     \else%
       \node[anchor=north,inner sep=0pt,yshift=-1.17cm] at (current page.north) {
         \@tempdima=\textwidth%
         \advance\@tempdima by\beamer@leftmargin%
         \advance\@tempdima by\beamer@rightmargin%
-        \begin{beamercolorbox}[sep=0.3cm,#1,wd=\the\@tempdima]{title}
+        \begin{beamercolorbox}[sep=0.3cm,wd=\the\@tempdima]{subtitle}
           \usebeamerfont{subtitle}%
           \vbox{}\vskip-1ex%
-          \if@tempswa\else\csname beamer@fte#1\endcsname\fi%
           \advance\leftskip by\@wegzeichenwidth%
           \advance\leftskip by 0.3cm%
-          \usebeamerfont{subtitle}%
-          \usebeamercolor[fg]{subtitle}%
-          \insertsubtitle\strut\par%
+          \dpsg@subtitle\strut%
         \end{beamercolorbox}%
       };
     \fi
-
   \end{tikzpicture}
 }
+% weitere mögliche Felder:
+% \insertauthor
+% \insertinstitute
+% \insertdate
+\defbeamertemplate*{title page}{dpsg}{
+  \def\dpsg@hintergrundfoto{\inserttitelfoto}
+  \def\dpsg@title{\inserttitle}
+  \def\dpsg@subtitle{\insertsubtitle}
+  \dpsg@titelfolie
+}
 
-\mode
-<all>
+
+
+
+\mode<all>
+
+
+% Kommando, um die Titelfolie anzuzeigen
+\newcommand{\dpsgtitelfolie}{
+  \mode<presentation>{
+    \frame[plain]{\titlepage}
+  }
+}
