@@ -216,6 +216,7 @@
 \def\dpsg@hintergrundfoto{}
 \def\dpsg@title{}
 \def\dpsg@subtitle{}
+\newif\ifdpsg@show@titel@logo
 \newcommand{\dpsg@titelfolie}{
   \begin{tikzpicture}[remember picture,overlay]
     \ifx\dpsg@hintergrundfoto\@empty%
@@ -224,12 +225,14 @@
     \fi
 
     % Logo unten rechts
+    \ifdpsg@show@titel@logo
     \node[fill=white,fill opacity=0.8,anchor=south east,xshift=-0.75cm,yshift=0.75cm]
       at (current page.south east)
       {\phantom{\usebox{\@dpsglogodachzeile}}};
     \node[anchor=south east,xshift=-0.75cm,yshift=0.75cm]
       at (current page.south east)
       {\usebox{\@dpsglogodachzeile}};
+    \fi
 
     % Titelzeile
     \path[fill=white,opacity=0.7,anchor=north west]
@@ -281,7 +284,27 @@
   \def\dpsg@hintergrundfoto{\inserttitelfoto}
   \def\dpsg@title{\inserttitle}
   \def\dpsg@subtitle{\insertsubtitle}
+  \dpsg@show@titel@logotrue%
   \dpsg@titelfolie
+}
+
+\def\dpsg@fotofolie@foto{}
+\def\dpsg@fotofolie@title{}
+\def\dpsg@fotofolie@subtitle{}
+\newcommand{\dpsgFotoFoto}[1]{\def\dpsg@fotofolie@foto{#1}}
+\newcommand{\dpsgFotoTitle}[1]{\def\dpsg@fotofolie@title{#1}}
+\newcommand{\dpsgFotoSubtitle}[1]{\def\dpsg@fotofolie@subtitle{#1}}
+\newcommand{\dpsgfotofolie}{
+  \begingroup
+    \def\dpsg@hintergrundfoto{\dpsg@fotofolie@foto}
+    \def\dpsg@title{\dpsg@fotofolie@title}
+    \def\dpsg@subtitle{\dpsg@fotofolie@subtitle}
+    \dpsg@show@titel@logofalse%
+    \setbeamertemplate{navigation symbols}{}
+    \begin{frame}[plain]
+      \dpsg@titelfolie
+    \end{frame}
+  \endgroup
 }
 
 
