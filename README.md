@@ -33,9 +33,18 @@ Alle Farben sind im RGB-Format spezifiziert.
 Die Farbwerte wurden aus dem CD-Leitfaden (Stand: Juli 2014) übernommen.
 Die Farben können auch im eigenen Dokument verwendet werden (z. B. mit
 `\color{dpsgrot}`).
+
+Layoutfarben:
 * `dpsgrot`: RGB(129, 10, 26), verwendet für den Strich der Wort-Bild-Marke und
   die Wegzeichen
 * `dpsgblau`: RGB(0, 48, 86), verwendet für den Text der Wort-Bild-Marke
 * `dpsgbeige`: RGB(236, 223, 203), beispielsweise für die Fußzeile in
   Präsentationen
+* `dpsgmittelbeige`: RGB(199,189,173)
 
+Stufenfarben:
+* `dpsgwoes`: RGB(255,100,0)
+* `dpsgjupfis`: RGB(47,83,167)
+* `dpsgpfadis`: RGB(0,130,60)
+* `dpsgrover`: RGB(204,31,47)
+* `dpsgleiter`: RGB(177,185,173)
