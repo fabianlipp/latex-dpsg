@@ -1,6 +1,6 @@
 # LaTeX-Vorlagen für das Corporate Design der DPSG
 
-Die enthaltenen Logos sind ggf. urheberrechtlich geschützt und dürfen nur für verbandliche Zwecke der DPSG genutzt werden (vgl. http://dpsg.de/de/fuer-mitglieder/logos-design/logos.html).
+Die enthaltenen Logos sind ggf. urheberrechtlich geschützt und dürfen nur für verbandliche Zwecke der DPSG genutzt werden (vgl. https://dpsg.de/de/fuer-mitglieder/logos-design/logos-rund-um-die-dpsg.html).
 
 # Benutzung
 ## Installation
